@@ -1,0 +1,170 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Рассылка API",
+    "version": "1.0.0",
+    "description": "API для управления рассылками"
+  },
+  "paths": {
+    "/clients": {
+      "post": {
+        "summary": "Создание нового клиента",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Client"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Клиент создан успешно"
+          }
+        }
+      }
+    },
+    "/clients/{client_id}": {
+      "put": {
+        "summary": "Обновление данных атрибутов клиента",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Client"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Данные клиента обновлены успешно"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление клиента",
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Клиент удален успешно"
+          }
+        }
+      }
+    },
+    "/deliveries": {
+      "post": {
+        "summary": "Создание новой рассылки",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Delivery"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Рассылка создана успешно"
+          }
+        }
+      }
+    },
+    "/statistics": {
+      "get": {
+        "summary": "Получение общей статистики рассылок",
+        "responses": {
+          "200": {
+            "description": "Общая статистика рассылок"
+          }
+        }
+      }
+    },
+    "/deliveries/{delivery_id}/statistics": {
+      "get": {
+        "summary": "Получение детальной статистики рассылки",
+        "parameters": [
+          {
+            "name": "delivery_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Детальная статистика рассылки"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Client": {
+        "type": "object",
+        "properties": {
+          "phone_number": {
+            "type": "string"
+          },
+          "operator_code": {
+            "type": "string"
+          },
+          "tag": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          }
+        },
+        "required": ["phone_number", "operator_code"]
+      },
+      "Delivery": {
+        "type": "object",
+        "properties": {
+          "start_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "message": {
+            "type": "string"
+          },
+          "filter_operator": {
+            "type": "string"
+          },
+          "filter_value": {
+            "type": "string"
+          }
+        },
+        "required": ["start_time", "end_time", "message", "filter_operator", "filter_value"]
+      }
+    }
+  }
+}
